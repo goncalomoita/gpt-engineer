@@ -1,20 +1,18 @@
-import os
 import json
 import pathlib
+
 import typer
 
-from gpt_engineer.chat_to_files import to_files
-from gpt_engineer.ai import AI
-from gpt_engineer.steps import STEPS
-from gpt_engineer.db import DB, DBs
-
+from ai import AI
+from db import DB, DBs
+from steps import STEPS
 
 app = typer.Typer()
 
 
 @app.command()
 def chat(
-    project_path: str = typer.Argument(str(pathlib.Path(os.path.curdir) / "example"), help="path"),
+    project_path: str = typer.Argument(None, help="path"),
     run_prefix: str = typer.Option(
         "",
         help="run prefix, if you want to run multiple variants of the same project and later compare them",
@@ -24,7 +22,7 @@ def chat(
 ):
     if project_path is None:
         project_path = str(pathlib.Path(__file__).parent / "example")
-    
+
     input_path = project_path
     memory_path = pathlib.Path(project_path) / (run_prefix + "memory")
     workspace_path = pathlib.Path(project_path) / (run_prefix + "workspace")
@@ -47,9 +45,5 @@ def chat(
         dbs.logs[step.__name__] = json.dumps(messages)
 
 
-def execute():
-    app()
-
-
 if __name__ == "__main__":
-    execute()
+    app()

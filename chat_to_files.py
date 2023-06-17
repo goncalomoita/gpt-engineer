@@ -81,9 +81,8 @@ def parse_chat(chat: str, verbose: bool = False) -> List[Tuple[str, str]]:
     return files
 
 
-
 def to_files(chat, workspace):
-    workspace["all_output.txt"] = chat
+    workspace['all_output.txt'] = chat
 
     files = parse_chat(chat)
     for file_name, file_content in files:

@@ -11,8 +11,7 @@ class AI:
             print("Model gpt-4 not available for provided api key reverting "
                   "to gpt-3.5.turbo. Sign up for the gpt-4 wait list here: "
                   "https://openai.com/waitlist/gpt-4-api")
-            self.kwargs['model'] = "gpt-3.5-turbo-0613"
-            # self.kwargs['model'] = "gpt-3.5-turbo-16k"
+            self.kwargs['model'] = "gpt-3.5-turbo"
 
     def start(self, system, user):
         messages = [
@@ -38,8 +37,8 @@ class AI:
 
         chat = []
         for chunk in response:
-            delta = chunk["choices"][0]["delta"]
-            msg = delta.get("content", "")
+            delta = chunk['choices'][0]['delta']
+            msg = delta.get('content', '')
             print(msg, end="")
             chat.append(msg)
         return messages + [{"role": "assistant", "content": "".join(chat)}]

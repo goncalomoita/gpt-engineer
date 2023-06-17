@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Get the current working directory
+current_dir=$(pwd)
+
+# Get the parent directory path
+parent_dir=$(dirname "$(cd "$(dirname "$0")" && pwd)")
+
+# Concatenate the parent directory path with the provided argument
+concatenated_path="${current_dir}/${1}"
+
+# Run the Python script with the concatenated path
+python "${parent_dir}/main.py" "$concatenated_path"
