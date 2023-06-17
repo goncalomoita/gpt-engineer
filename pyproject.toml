@@ -11,7 +11,8 @@ dependencies = [
   'black == 23.3.0',
   'openai == 0.27.8',
   'ruff == 0.0.272',
-  'typer == 0.9.0'
+  'typer == 0.9.0',
+  'check-manifest == 0.47'  # Ensure MANIFEST.in is up to date
 ]
 
 [project.scripts]

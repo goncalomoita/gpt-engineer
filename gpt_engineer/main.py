@@ -22,7 +22,9 @@ def chat(
     model: str = "gpt-4",
     temperature: float = 0.1,
 ):
-    app_dir = pathlib.Path(os.path.curdir)
+    if project_path is None:
+        project_path = str(pathlib.Path(__file__).parent / "example")
+    
     input_path = project_path
     memory_path = pathlib.Path(project_path) / (run_prefix + "memory")
     workspace_path = pathlib.Path(project_path) / (run_prefix + "workspace")
@@ -34,10 +36,10 @@ def chat(
 
     dbs = DBs(
         memory=DB(memory_path),
-        logs=DB(memory_path / "logs"),
+        logs=DB(pathlib.Path(memory_path) / "logs"),
         input=DB(input_path),
         workspace=DB(workspace_path),
-        identity=DB(app_dir / "identity"),
+        identity=DB(pathlib.Path(__file__).parent / "identity"),
     )
 
     for step in STEPS:
