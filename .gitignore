@@ -13,6 +13,7 @@ build/
 
 # Virtual environments
 .env
+.env.sh
 venv/
 ENV/
 
@@ -25,6 +26,12 @@ ENV/
 *.pyo
 *.pyd
 
+# Python testing
+.pytest_cache/
+.ruff_cache/
+.coverage
+.mypy_cache/
+
 # macOS specific files
 .DS_Store
 
@@ -36,3 +43,18 @@ archive
 
 # any log file
 *log.txt
+todo
+scratchpad
+
+# Ignore GPT Engineer files
+projects
+!projects/example
+
+# Pyenv
+.python-version
+
+# Benchmark files
+benchmark
+!benchmark/*/prompt
+
+.gpte_consent

@@ -1,13 +1,18 @@
 import re
-from typing import List, Tuple
-from gpt_engineer.db import DB
 
 # Amount of lines within the code block to consider for filename discovery
 N_CODELINES_FOR_FILENAME_TA = 5
 
+<<<<<<< HEAD
 # Default path to use if no filename is found
 DEFAULT_PATH = 'unknown.txt'
 
+=======
+def parse_chat(chat):  # -> List[Tuple[str, str]]:
+    # Get all ``` blocks and preceding filenames
+    regex = r"(\S+)\n\s*```[^\n]*\n(.+?)```"
+    matches = re.finditer(regex, chat, re.DOTALL)
+>>>>>>> ac03a24027bb72c3d969f2bf98e52fda6b4d72b4
 
 def parse_chat(chat: str, verbose: bool = False) -> List[Tuple[str, str]]:
     '''
@@ -22,6 +27,7 @@ def parse_chat(chat: str, verbose: bool = False) -> List[Tuple[str, str]]:
     
     prev_code_y_end = 0
     files = []
+<<<<<<< HEAD
     for match in code_matches:
         lines = match.group(1).split('\n')
         code_y_start = match.start()
@@ -78,11 +84,36 @@ def parse_chat(chat: str, verbose: bool = False) -> List[Tuple[str, str]]:
 
             # File and code have been matched, add them to the list
             files.append((path, '\n'.join(lines[1:])))
+=======
+    for match in matches:
+        # Strip the filename of any non-allowed characters and convert / to \
+        path = re.sub(r'[<>"|?*]', "", match.group(1))
 
+        # Remove leading and trailing brackets
+        path = re.sub(r"^\[(.*)\]$", r"\1", path)
+
+        # Remove leading and trailing backticks
+        path = re.sub(r"^`(.*)`$", r"\1", path)
+
+        # Remove trailing ]
+        path = re.sub(r"\]$", "", path)
+
+        # Get the code
+        code = match.group(2)
+
+        # Add the file to the list
+        files.append((path, code))
+>>>>>>> ac03a24027bb72c3d969f2bf98e52fda6b4d72b4
+
+    # Get all the text before the first ``` block
+    readme = chat.split("```")[0]
+    files.append(("README.md", readme))
+
+    # Return the files
     return files
 
 
-def to_files(chat: str, workspace: DB):
+def to_files(chat, workspace):
     workspace["all_output.txt"] = chat
 
     files = parse_chat(chat)
